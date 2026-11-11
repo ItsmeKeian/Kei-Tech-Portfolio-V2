@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import heroPhoto from '../assets/keian-hero.webp'
 
 type ChipProps = {
   label: string
@@ -28,14 +29,17 @@ export function HeroPhoto() {
         <circle cx="60" cy="260" r="4" fill="currentColor" />
       </svg>
 
-      {/* Photo frame (placeholder until you have your photo) */}
-      <div className="absolute top-[8%] left-[26%] flex h-[76%] w-[48%] flex-col items-center justify-center gap-3 rounded-[20px] border-[1.5px] border-band bg-band text-band-muted shadow-[14px_14px_0_var(--accent)] dark:border-accent dark:bg-band-card dark:shadow-[0_0_48px_rgb(198_244_50/0.2)]">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <circle cx="12" cy="8" r="4" />
-          <path d="M4 21a8 8 0 0 1 16 0" />
-        </svg>
-        <span className="font-mono text-[13px]">[ YOUR PHOTO ]</span>
-      </div>
+      {/* Photo frame */}
+    <div className="absolute top-[8%] left-[26%] h-[76%] w-[48%] overflow-hidden rounded-[20px] border-[1.5px] border-band shadow-[14px_14px_0_var(--accent)] dark:border-accent dark:shadow-[0_0_48px_rgb(198_244_50/0.2)]">
+    <img
+        src={heroPhoto}
+        alt="Keian, founder of Kei-Tech"
+        width={800}
+        height={1000}
+        fetchPriority="high"
+        className="h-full w-full object-cover"
+    />
+    </div>
 
       <Chip label="web" position="top-[2%] left-0">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2" /><path d="M8 21h8" /></svg>
