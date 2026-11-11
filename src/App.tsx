@@ -2,6 +2,7 @@ import { Splash } from './components/Splash'
 import { Navbar } from './components/Navbar'
 import { Hero } from './components/Hero'
 import { Services } from './components/Services'
+import { Process } from './components/Process'
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
       <main>
         <Hero />
         <Services />
+        <Process />
       </main>
     </div>
   )
