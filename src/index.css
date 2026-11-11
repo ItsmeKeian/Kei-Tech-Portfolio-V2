@@ -6,6 +6,7 @@
 /* Light mode colors (Option A: Circuit Maker) */
 :root {
   --page: #F5F6F1;
+  --soft: #E6E9E1;
   --ink: #0F1B2D;
   --muted: #3F4A5A;
   --line: #DCE0D9;
@@ -24,6 +25,7 @@
 /* Dark mode colors (Option C: Night Circuit) */
 .dark {
   --page: #0A0F1A;
+  --soft: #0E1424;
   --ink: #E9EEF5;
   --muted: #A9B5C6;
   --line: #1E2A3D;
@@ -31,17 +33,18 @@
   --highlight: #5EEAD4;
   --accent: #C6F432;
   --on-accent: #0A0F1A;
-  --band: #0F1626;
+  --band: #141E33;
   --band-ink: #E9EEF5;
   --band-muted: #A9B5C6;
-  --band-card: #141E2F;
-  --band-line: #263550;
+  --band-card: #1B2843;
+  --band-line: #2D3D5A;
   --band-accent: #5EEAD4;
 }
 
 /* Turn the variables into Tailwind classes like bg-page, text-ink, bg-accent */
 @theme inline {
   --color-page: var(--page);
+  --color-soft: var(--soft);
   --color-ink: var(--ink);
   --color-muted: var(--muted);
   --color-line: var(--line);

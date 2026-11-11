@@ -2,7 +2,7 @@ import { processSteps } from '../data/process'
 
 export function Process() {
   return (
-    <section id="process" className="border-t border-line">
+    <section id="process" className="bg-soft">
       <div className="mx-auto flex max-w-6xl flex-col gap-10 px-6 py-20">
         <div className="flex max-w-2xl flex-col gap-3">
           <p className="font-mono text-sm text-highlight">// how i work</p>
