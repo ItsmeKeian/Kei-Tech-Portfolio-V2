@@ -1,4 +1,5 @@
 import { HeroPhoto } from './HeroPhoto'
+import { contactChannels } from '../data/contact'
 
 const trustPoints = [
   { text: 'Eastern Samar, Philippines', icon: 'M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11zM12 7.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z' },
@@ -27,20 +28,33 @@ export function Hero() {
           </h1>
 
           <p className="max-w-xl text-lg leading-relaxed text-muted">
-            I’m Keian, a developer from Eastern Samar, Philippines. I build websites, web systems with
-            mobile apps, and Arduino/IoT solutions for schools, businesses and offices, in the
-            Philippines and worldwide.
-          </p>
+            I’m Keian, a developer from Eastern Samar, Philippines, working with clients locally and worldwide.
+            I build websites, online stores, web systems with mobile apps, and Arduino/IoT solutions for schools,
+            businesses and offices.
+            </p>
 
           <div className="flex flex-wrap gap-3 pt-2">
-            <a href="#contact" className="inline-flex min-h-13 items-center gap-2.5 rounded-[10px] bg-accent px-6 font-semibold text-on-accent transition-transform hover:-translate-y-0.5">
-              Get a Free Quote
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            <a
+                href="#contact"
+                className="inline-flex min-h-13 items-center gap-2.5 rounded-[10px] bg-accent px-6 font-semibold text-on-accent transition-transform hover:-translate-y-0.5"
+            >
+                Get a Free Quote
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
             </a>
-            <a href="#contact" className="inline-flex min-h-13 items-center gap-2.5 rounded-[10px] border-[1.5px] border-ink px-6 font-semibold transition-colors hover:border-highlight hover:text-highlight dark:border-muted/50">
-              Message Me
+            <a
+                href={contactChannels[0].href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex min-h-13 items-center gap-2.5 rounded-[10px] border-[1.5px] border-ink px-6 font-semibold transition-colors hover:border-highlight hover:text-highlight dark:border-muted/50"
+            >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z" />
+                </svg>
+                Message Me
             </a>
-          </div>
+            </div>
 
           <ul className="flex flex-wrap gap-x-7 gap-y-2.5 pt-4 text-sm text-muted">
             {trustPoints.map((point) => (

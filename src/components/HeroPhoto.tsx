@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import heroPhoto from '../assets/keian-hero.webp'
+import heroPhoto from '../assets/keian-hero-cutout.webp'
 
 type ChipProps = {
   label: string
@@ -29,17 +29,34 @@ export function HeroPhoto() {
         <circle cx="60" cy="260" r="4" fill="currentColor" />
       </svg>
 
-      {/* Photo frame */}
-    <div className="absolute top-[8%] left-[26%] h-[76%] w-[48%] overflow-hidden rounded-[20px] border-[1.5px] border-band shadow-[14px_14px_0_var(--accent)] dark:border-accent dark:shadow-[0_0_48px_rgb(198_244_50/0.2)]">
-    <img
-        src={heroPhoto}
-        alt="Keian, founder of Kei-Tech"
-        width={800}
-        height={1000}
-        fetchPriority="high"
-        className="h-full w-full object-cover"
-    />
-    </div>
+    {/* Photo frame: the background color follows the theme */}
+      <div className="absolute top-[8%] left-[26%] h-[76%] w-[48%] overflow-hidden rounded-[20px] border-[1.5px] border-band bg-card shadow-[14px_14px_0_var(--accent)] dark:border-accent dark:bg-band-card dark:shadow-[0_0_48px_rgb(198_244_50/0.2)]">
+        {/* Faint circuit lines behind the photo */}
+        <svg
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full text-ink/10 dark:text-highlight/25"
+          viewBox="0 0 200 250"
+          preserveAspectRatio="xMidYMid slice"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        >
+          <path d="M0 45h65l15 15h50" />
+          <circle cx="133" cy="60" r="3" />
+          <path d="M200 95h-50l-10 10h-35" />
+          <circle cx="102" cy="105" r="3" />
+          <path d="M0 160h40l12-12h30" />
+        </svg>
+
+        <img
+          src={heroPhoto}
+          alt="Keian, founder of Kei-Tech"
+          width={800}
+          height={1000}
+          fetchPriority="high"
+          className="relative h-full w-full object-cover object-bottom"
+        />
+      </div>
 
       <Chip label="web" position="top-[2%] left-0">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2" /><path d="M8 21h8" /></svg>
