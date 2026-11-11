@@ -1,14 +1,45 @@
+import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { contactChannels } from '../data/contact'
 import { services } from '../data/services'
+import { sendContactMessage } from '../lib/sendContactMessage'
+
+type Status = 'idle' | 'sending' | 'sent' | 'error'
 
 const fieldClass =
   'min-h-12 w-full rounded-[10px] border border-line bg-page px-3.5 text-[15px] text-ink placeholder:text-muted/70 focus:border-highlight focus:outline-none'
 
 export function Contact() {
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault() // Sending is added in the next step
+  const [status, setStatus] = useState<Status>('idle')
+  const [errorMessage, setErrorMessage] = useState('')
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    const form = event.currentTarget // save it now, before "await"
+    const formData = new FormData(form)
+
+    setStatus('sending')
+    setErrorMessage('')
+
+    const result = await sendContactMessage({
+      name: String(formData.get('name') ?? ''),
+      email: String(formData.get('email') ?? ''),
+      service: String(formData.get('service') ?? ''),
+      message: String(formData.get('message') ?? ''),
+      website: String(formData.get('website') ?? ''),
+    })
+
+    if (result.ok) {
+      setStatus('sent')
+      form.reset()
+      return
+    }
+
+    setStatus('error')
+    setErrorMessage(result.errors ? Object.values(result.errors).join(' ') : (result.error ?? 'Something went wrong.'))
   }
+
+  const isSending = status === 'sending'
 
   return (
     <section id="contact">
@@ -50,16 +81,16 @@ export function Contact() {
         {/* Right: contact form */}
         <form
           onSubmit={handleSubmit}
-          className="flex min-w-0 flex-[1_1_440px] flex-col gap-5 rounded-2xl border border-line bg-card p-6 sm:p-8"
+          className="relative flex min-w-0 flex-[1_1_440px] flex-col gap-5 rounded-2xl border border-line bg-card p-6 sm:p-8"
         >
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="flex flex-col gap-2">
               <label htmlFor="contact-name" className="text-sm font-semibold">Your name</label>
-              <input id="contact-name" name="name" type="text" autoComplete="name" required placeholder="Juan Dela Cruz" className={fieldClass} />
+              <input id="contact-name" name="name" type="text" autoComplete="name" required maxLength={100} placeholder="Juan Dela Cruz" className={fieldClass} />
             </div>
             <div className="flex flex-col gap-2">
               <label htmlFor="contact-email" className="text-sm font-semibold">Email</label>
-              <input id="contact-email" name="email" type="email" autoComplete="email" required placeholder="you@example.com" className={fieldClass} />
+              <input id="contact-email" name="email" type="email" autoComplete="email" required maxLength={254} placeholder="you@example.com" className={fieldClass} />
             </div>
           </div>
 
@@ -80,14 +111,40 @@ export function Contact() {
               name="message"
               rows={5}
               required
+              minLength={10}
+              maxLength={5000}
               placeholder="What problem do you want to solve?"
               className={`${fieldClass} resize-y py-3`}
             />
           </div>
 
-          <button type="submit" className="min-h-13 rounded-[10px] bg-accent font-semibold text-on-accent transition-transform hover:-translate-y-0.5">
-            Send message
+          {/* Spam trap: hidden from people, but bots fill it in */}
+          <div aria-hidden="true" className="absolute -left-[9999px]">
+            <label htmlFor="contact-website">Website</label>
+            <input id="contact-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+          </div>
+
+          <button
+            type="submit"
+            disabled={isSending}
+            className="min-h-13 rounded-[10px] bg-accent font-semibold text-on-accent transition-transform hover:-translate-y-0.5 disabled:cursor-wait disabled:opacity-70 disabled:hover:translate-y-0"
+          >
+            {isSending ? 'Sending…' : 'Send message'}
           </button>
+
+          {/* Result message (announced to screen readers) */}
+          <div aria-live="polite">
+            {status === 'sent' && (
+              <p className="rounded-[10px] border border-highlight/40 bg-highlight/10 px-4 py-3 text-sm font-medium text-highlight">
+                Thanks! Your message was sent. I’ll reply as soon as I can.
+              </p>
+            )}
+            {status === 'error' && (
+              <p className="rounded-[10px] border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm font-medium text-red-700 dark:text-red-400">
+                {errorMessage}
+              </p>
+            )}
+          </div>
 
           <p className="text-[13px] leading-relaxed text-muted">
             Your details are only used to reply to you, in line with the Data Privacy Act of 2012 (RA 10173).
