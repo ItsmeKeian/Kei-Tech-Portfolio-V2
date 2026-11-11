@@ -1,13 +1,9 @@
 import { useEffect, useState } from 'react'
 import { LogoMark } from './LogoMark'
 import { ThemeToggle } from './ThemeToggle'
+import { navLinks } from '../data/navigation'
 
-const links = [
-  { href: '#services', label: 'Services' },
-  { href: '#projects', label: 'Projects' },
-  { href: '#process', label: 'How I Work' },
-  { href: '#about', label: 'About' },
-]
+
 
 export function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
@@ -34,7 +30,7 @@ export function Navbar() {
         <div className="flex items-center gap-2 md:gap-6">
           {/* Desktop links */}
           <ul className="hidden items-center gap-6 text-[15px] font-medium md:flex">
-            {links.map((link) => (
+            {navLinks.map((link) => (
               <li key={link.href}>
                 <a href={link.href} className="py-3 transition-colors hover:text-highlight">
                   {link.label}
@@ -68,7 +64,7 @@ export function Navbar() {
       {menuOpen && (
         <div id="mobile-menu" className="absolute inset-x-0 top-full border-b border-line bg-page px-6 pb-6 shadow-lg md:hidden">
           <ul>
-            {links.map((link) => (
+            {navLinks.map((link) => (
               <li key={link.href}>
                 <a href={link.href} onClick={closeMenu} className="block border-b border-line py-4 text-lg font-medium">
                   {link.label}
