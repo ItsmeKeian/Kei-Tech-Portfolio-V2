@@ -66,20 +66,20 @@ body {
   background-color: var(--page);
 }
 
-/* Splash screen animations */
-@keyframes draw {
-  to { stroke-dashoffset: 0; }
-}
-@keyframes rise {
+/* Split-door splash animations */
+@keyframes splash-draw { to { stroke-dashoffset: 0; } }
+@keyframes splash-fade-in { to { opacity: 1; } }
+@keyframes splash-fade-out { to { opacity: 0; } }
+@keyframes splash-seam { to { transform: scaleX(1); } }
+@keyframes splash-rise {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: none; }
 }
-.animate-draw {
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  animation: draw 0.8s ease-out forwards;
-}
-.animate-rise {
-  opacity: 0;
-  animation: rise 0.6s ease-out 0.3s forwards;
-}
+
+.splash-draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: splash-draw 0.7s ease-out forwards; }
+.splash-draw-late { animation-delay: 0.8s; animation-duration: 0.5s; }
+.splash-pins { opacity: 0; animation: splash-fade-in 0.3s ease-out 0.6s forwards; }
+.splash-rise { opacity: 0; animation: splash-rise 0.5s ease-out 0.9s forwards; }
+.splash-rise-late { animation-delay: 1.05s; }
+.splash-content { animation: splash-fade-out 0.3s ease-in 1.4s forwards; }
+.splash-seam { transform: scaleX(0); animation: splash-seam 0.3s ease-out 1.5s forwards; }

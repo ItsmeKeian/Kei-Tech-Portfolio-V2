@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
+import { LogoMark } from './LogoMark'
 
 const SHOWN_KEY = 'kt-splash-shown'
-const SHOW_DURATION_MS = 1000 // how long the splash stays fully visible
-const FADE_DURATION_MS = 500  // how long the fade-out takes
+const OPEN_AT_MS = 2000 // when the doors start opening
+const DOOR_MS = 600 // how long the doors take to open
 
 function shouldShowSplash(): boolean {
   try {
-    // Testing shortcut: add ?splash to the URL to always show it
+    // Testing shortcut (development only): add ?splash to the URL to always show it
     if (import.meta.env.DEV && new URLSearchParams(window.location.search).has('splash')) return true
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -19,8 +20,9 @@ function shouldShowSplash(): boolean {
 
 export function Splash() {
   const [visible, setVisible] = useState(shouldShowSplash)
-  const [leaving, setLeaving] = useState(false)
+  const [opening, setOpening] = useState(false)
 
+  // Start the timeline: open the doors at OPEN_AT_MS
   useEffect(() => {
     if (!visible) return
     try {
@@ -28,30 +30,49 @@ export function Splash() {
     } catch {
       // Storage blocked: the splash may show again, which is fine.
     }
-    const fadeTimer = setTimeout(() => setLeaving(true), SHOW_DURATION_MS)
-    const removeTimer = setTimeout(() => setVisible(false), SHOW_DURATION_MS + FADE_DURATION_MS)
-    return () => {
-      clearTimeout(fadeTimer)
-      clearTimeout(removeTimer)
-    }
+    const timer = setTimeout(() => setOpening(true), OPEN_AT_MS)
+    return () => clearTimeout(timer)
   }, [visible])
 
+  // When the doors open (on time or by tapping), remove the splash afterwards
+  useEffect(() => {
+    if (!opening) return
+    const timer = setTimeout(() => setVisible(false), DOOR_MS)
+    return () => clearTimeout(timer)
+  }, [opening])
+
   if (!visible) return null
+
+  const doorMotion = 'transition-transform duration-[600ms] ease-[cubic-bezier(0.7,0,0.3,1)]'
 
   return (
     <div
       aria-hidden="true"
-      onClick={() => setLeaving(true)}
-      className={`fixed inset-0 z-50 flex flex-col items-center justify-center gap-5 bg-page transition-opacity duration-500 ${
-        leaving ? 'pointer-events-none opacity-0' : 'opacity-100'
-      }`}
+      onClick={() => setOpening(true)}
+      className={`fixed inset-0 z-50 ${opening ? 'pointer-events-none' : ''}`}
     >
-      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-accent">
-        <path d="M4 12h5l3-6 3 12 3-6h2" pathLength={1} className="animate-draw" />
-      </svg>
-      <p className="animate-rise font-heading text-3xl font-bold tracking-[0.2em] text-ink">
-        KEI-TECH
-      </p>
+      {/* Top door */}
+      <div className={`absolute inset-x-0 top-0 h-1/2 bg-page ${doorMotion} ${opening ? '-translate-y-full' : ''}`} />
+      {/* Bottom door */}
+      <div className={`absolute inset-x-0 bottom-0 h-1/2 bg-page ${doorMotion} ${opening ? 'translate-y-full' : ''}`} />
+
+      {/* Glowing seam across the middle */}
+      <div
+        className={`splash-seam absolute inset-x-0 top-1/2 h-0.5 -translate-y-1/2 bg-accent transition-opacity duration-300 ${
+          opening ? 'opacity-0' : ''
+        }`}
+      />
+
+      {/* Logo and name */}
+      <div
+        className={`splash-content absolute inset-0 flex flex-col items-center justify-center gap-4 ${
+          opening ? 'opacity-0' : ''
+        }`}
+      >
+        <LogoMark size={88} animated className="text-accent" />
+        <p className="splash-rise font-heading text-3xl font-bold tracking-[0.2em] text-ink">KEI-TECH</p>
+        <p className="splash-rise splash-rise-late font-mono text-sm text-highlight">web · mobile · iot</p>
+      </div>
     </div>
   )
 }

@@ -1,4 +1,5 @@
 import { ThemeToggle } from './ThemeToggle'
+import { LogoMark } from './LogoMark'
 
 const links = [
   { href: '#services', label: 'Services' },
@@ -12,13 +13,9 @@ export function Navbar() {
     <header className="border-b border-line">
       <nav aria-label="Main" className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-4">
         <a href="#top" className="flex items-center gap-2.5">
-          <span className="flex size-9 items-center justify-center rounded-lg bg-band text-accent">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M4 12h5l3-6 3 12 3-6h2" />
-            </svg>
-          </span>
-          <span className="font-heading text-[22px] font-bold tracking-tight">Kei-Tech</span>
-        </a>
+            <LogoMark size={36} className="text-accent" />
+            <span className="font-heading text-[22px] font-bold tracking-tight">Kei-Tech</span>
+            </a>
 
         <div className="flex flex-wrap items-center gap-x-6 gap-y-1 text-[15px] font-medium">
           {links.map((link) => (
