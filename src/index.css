@@ -1,1 +1,62 @@
 @import "tailwindcss";
+
+/* Dark mode turns on when <html> has class="dark" */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Light mode colors (Option A: Circuit Maker) */
+:root {
+  --page: #F5F6F1;
+  --ink: #0F1B2D;
+  --muted: #3F4A5A;
+  --line: #DCE0D9;
+  --card: #FFFFFF;
+  --highlight: #0B6475;
+  --accent: #F0643C;
+  --on-accent: #0F1B2D;
+  --band: #0F1B2D;
+  --band-ink: #F5F6F1;
+  --band-muted: #B8C4CF;
+  --band-card: #17263B;
+  --band-line: #2A3B52;
+  --band-accent: #F0643C;
+}
+
+/* Dark mode colors (Option C: Night Circuit) */
+.dark {
+  --page: #0A0F1A;
+  --ink: #E9EEF5;
+  --muted: #A9B5C6;
+  --line: #1E2A3D;
+  --card: #111A2B;
+  --highlight: #5EEAD4;
+  --accent: #C6F432;
+  --on-accent: #0A0F1A;
+  --band: #0F1626;
+  --band-ink: #E9EEF5;
+  --band-muted: #A9B5C6;
+  --band-card: #141E2F;
+  --band-line: #263550;
+  --band-accent: #5EEAD4;
+}
+
+/* Turn the variables into Tailwind classes like bg-page, text-ink, bg-accent */
+@theme inline {
+  --color-page: var(--page);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-card: var(--card);
+  --color-highlight: var(--highlight);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
+  --color-band: var(--band);
+  --color-band-ink: var(--band-ink);
+  --color-band-muted: var(--band-muted);
+  --color-band-card: var(--band-card);
+  --color-band-line: var(--band-line);
+  --color-band-accent: var(--band-accent);
+
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-heading: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
