@@ -1,75 +1,109 @@
-# React + TypeScript + Vite
+# Kei-Tech Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The website of **Kei-Tech**, a one-person studio by Keian Gacillos from Eastern Samar, Philippines.
+I build websites, online stores, web systems with mobile apps, and Arduino/IoT solutions for clients in the Philippines and worldwide.
 
-Currently, two official plugins are available:
+**Live site:** _coming soon_
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+![Kei-Tech homepage in light mode](docs/screenshots/home-light.png)
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Light and dark mode:** follows the visitor's device setting, with a toggle that remembers their choice (no white flash on load)
+- **Mobile-first design** with a hamburger menu on small screens
+- **Animated splash screen:** a short split-door intro with the Kei-Tech chip logo. Shown once per visit, tap to skip, and skipped for visitors who prefer reduced motion
+- **Working contact form:** sends inquiries by email through a small PHP API, with server-side validation and spam protection
+- **Accessible:** semantic HTML, labeled form fields, keyboard support, screen-reader announcements
+- **Fast:** optimized WebP images, lazy loading, and no heavy animation libraries
 
-## Expanding the ESLint configuration
+## Screenshots
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+| Dark mode | Mobile |
+|---|---|
+| ![Dark mode](docs/screenshots/home-dark.png) | ![Mobile view](docs/screenshots/mobile.png) |
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Tech stack
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+| Part | Tools |
+|---|---|
+| Frontend | React, TypeScript, Tailwind CSS v4, Vite |
+| Backend (contact form) | PHP 8, Composer, PHPMailer, phpdotenv |
+| Tooling | ESLint, Git, GitHub |
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Project structure
 
 ```
-
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+kei-tech-portfolio/
+├── api/                  # PHP backend for the contact form
+│   ├── public/
+│   │   └── contact.php   # the only file served to the web
+│   ├── .env.example      # template for settings (copy to .env)
+│   └── composer.json
+├── public/               # favicon and static files
+├── src/
+│   ├── assets/           # images
+│   ├── components/       # React components (Navbar, Hero, Contact, ...)
+│   ├── data/             # page content (services, process steps, contact links)
+│   ├── hooks/            # reusable logic (useTheme)
+│   └── lib/              # API calls (sendContactMessage)
+└── index.html
 ```
+
+Content such as services and process steps lives in `src/data`, separate from the layout, so text can be updated without touching the components.
+
+## Getting started
+
+### Requirements
+- [Node.js](https://nodejs.org/) 20 or newer
+- PHP 8.1 or newer (for example from [XAMPP](https://www.apachefriends.org/))
+- [Composer](https://getcomposer.org/)
+
+### 1. Install
+```bash
+git clone https://github.com/ItsmeKeian/Kei-Tech-Portfolio-V2.git
+cd Kei-Tech-Portfolio-V2
+npm install
+cd api
+composer install
+cd ..
+```
+
+### 2. Configure the contact form
+Copy the settings template and fill in your own values:
+```bash
+cp api/.env.example api/.env
+```
+
+| Setting | Meaning |
+|---|---|
+| `SMTP_HOST`, `SMTP_PORT` | Your email provider's SMTP server (for example `smtp.gmail.com`, `587`) |
+| `SMTP_USER`, `SMTP_PASS` | The sending account. For Gmail, use an [App Password](https://myaccount.google.com/apppasswords), never your real password |
+| `MAIL_TO` | Where inquiries are delivered |
+| `ALLOWED_ORIGIN` | The website address allowed to use the API (`http://localhost:5173` for local development) |
+
+> `api/.env` is in `.gitignore` and must never be committed.
+
+### 3. Run locally
+Open two terminals:
+```bash
+# Terminal 1: the website
+npm run dev
+
+# Terminal 2: the contact form API
+php -S 127.0.0.1:8000 -t api/public
+```
+Visit **http://localhost:5173**. Vite forwards `/api/*` requests to the PHP server.
+
+### 4. Build for production
+```bash
+npm run build
+```
+The finished site is created in the `dist` folder.
+
+## Contact
+
+Interested in working together? Use the contact form on the website, or open an issue in this repository.
+
+---
+
+© 2026 Kei-Tech. All rights reserved.
